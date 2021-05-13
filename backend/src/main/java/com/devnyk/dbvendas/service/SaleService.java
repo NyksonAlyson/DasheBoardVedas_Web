@@ -12,10 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.devnyk.dbvendas.dto.SaleDTO;
+import com.devnyk.dbvendas.dto.SaleSuccessDTO;
+import com.devnyk.dbvendas.dto.SaleSumDTO;
 import com.devnyk.dbvendas.entities.Sale;
-import com.devnyk.dbvendas.entities.Seller;
 import com.devnyk.dbvendas.repositories.SaleRepository;
 import com.devnyk.dbvendas.repositories.SellerRepository;
+
 
 @Service
 public class SaleService {
@@ -33,6 +35,14 @@ public class SaleService {
 		Page<Sale>  result = salerRepository.findAll(pageable);
 		return result.map(x -> new SaleDTO(x));
 	}
+	@org.springframework.transaction.annotation.Transactional(readOnly = true)
+	public List<SaleSumDTO> amountGroupedBySeller(){
+		return salerRepository.amountGroupedBySeller();
+}
 	
+	@org.springframework.transaction.annotation.Transactional(readOnly = true)
+	public List<SaleSuccessDTO> successGroupedBySeller(){
+		return salerRepository.successGroupedBySeller();
+}
 	
 }
